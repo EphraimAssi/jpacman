@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.ui.ScorePanel.ScoreFormatter;
 
 /**
  * The default JPacMan UI frame. The PacManUI consists of the following
@@ -42,9 +41,9 @@ public class PacManUI extends JFrame {
     private static final int FRAME_INTERVAL = 40;
 
     /**
-     * The panel displaying the player scores.
+     * The header panel displaying the player scores and amount of lives.
      */
-    private final ScorePanel scorePanel;
+    private final HeaderPanel headerPanel;
 
     /**
      * The panel displaying the game.
@@ -62,12 +61,9 @@ public class PacManUI extends JFrame {
      * @param keyMappings
      *            The map of keyCode-to-action entries that will be added as key
      *            listeners to the interface.
-     * @param scoreFormatter
-     *            The formatter used to display the current score.
      */
     public PacManUI(final Game game, final Map<String, Action> buttons,
-                    final Map<Integer, Action> keyMappings,
-                    ScoreFormatter scoreFormatter) {
+                    final Map<Integer, Action> keyMappings) {
         super("JPacman");
         assert game != null;
         assert buttons != null;
@@ -80,17 +76,14 @@ public class PacManUI extends JFrame {
 
         JPanel buttonPanel = new ButtonPanel(buttons, this);
 
-        scorePanel = new ScorePanel(game.getPlayers());
-        if (scoreFormatter != null) {
-            scorePanel.setScoreFormatter(scoreFormatter);
-        }
+        headerPanel = new HeaderPanel(game.getPlayers());
 
         boardPanel = new BoardPanel(game);
 
         Container contentPanel = getContentPane();
         contentPanel.setLayout(new BorderLayout());
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
-        contentPanel.add(scorePanel, BorderLayout.NORTH);
+        contentPanel.add(headerPanel, BorderLayout.NORTH);
         contentPanel.add(boardPanel, BorderLayout.CENTER);
 
         pack();
@@ -111,6 +104,6 @@ public class PacManUI extends JFrame {
      */
     private void nextFrame() {
         boardPanel.repaint();
-        scorePanel.refresh();
+        headerPanel.refresh();
     }
 }
