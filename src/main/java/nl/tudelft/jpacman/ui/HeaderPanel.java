@@ -49,9 +49,16 @@ public class HeaderPanel extends JPanel {
     protected void refresh() {
         for (Map.Entry<Player, JLabel> entry : infoLabels.entrySet()) {
             Player player = entry.getKey();
-            StringBuilder info = new StringBuilder();
+            String scoreText = String.format("Score: %d", player.getScore());
+            String livesText = String.format("Lives: %d", player.getLives());
+            String infoText = scoreText + " | " + livesText;
 
-            info.append(String.format("Score: %3d  |  Lives: %d", player.getScore(), player.getLives()));
+            StringBuilder info = new StringBuilder();
+            if (!player.isAlive()) {
+                info.append(infoText).append(" | You died.");
+            } else {
+                info.append(infoText);
+            }
 
             entry.getValue().setText(info.toString());
         }
