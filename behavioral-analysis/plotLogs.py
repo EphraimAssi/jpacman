@@ -1,5 +1,6 @@
-import sys, re
 import matplotlib.pyplot as plt
+import re
+import sys
 
 # read the log file path
 filepath = sys.argv[1]
