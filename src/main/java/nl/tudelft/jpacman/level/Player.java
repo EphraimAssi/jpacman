@@ -4,6 +4,7 @@ import java.util.Map;
 
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -13,6 +14,11 @@ import nl.tudelft.jpacman.sprite.Sprite;
  * @author Jeroen Roosen 
  */
 public class Player extends Unit {
+
+    /**
+     * The amount of player lives
+     */
+    private int lives;
 
     /**
      * The amount of points accumulated by this player.
@@ -49,10 +55,20 @@ public class Player extends Unit {
      */
     protected Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
         this.score = 0;
+        this.lives = 3;
         this.alive = true;
         this.sprites = spriteMap;
         this.deathSprite = deathAnimation;
         deathSprite.setAnimating(false);
+    }
+
+    /**
+     * Returns number of player lives
+     *
+     * @return The amount of lives this player has.
+     */
+    public int getLives() {
+        return lives;
     }
 
     /**
@@ -64,24 +80,6 @@ public class Player extends Unit {
         return alive;
     }
 
-    /**
-     * Sets whether this player is alive or not.
-     *
-     * If the player comes back alive, the {@link killer} will be reset.
-     *
-     * @param isAlive
-     *            <code>true</code> iff this player is alive.
-     */
-    public void setAlive(boolean isAlive) {
-        if (isAlive) {
-            deathSprite.setAnimating(false);
-            this.killer = null;
-        }
-        if (!isAlive) {
-            deathSprite.restart();
-        }
-        this.alive = isAlive;
-    }
 
     /**
      * Returns the unit that caused the death of Pac-Man.
@@ -92,14 +90,6 @@ public class Player extends Unit {
         return killer;
     }
 
-    /**
-     * Sets the cause of death.
-     *
-     * @param killer is set if collision with ghost happens.
-     */
-    public void setKiller(Unit killer) {
-        this.killer =  killer;
-    }
 
     /**
      * Returns the amount of points accumulated by this player.
@@ -127,5 +117,22 @@ public class Player extends Unit {
      */
     public void addPoints(int points) {
         score += points;
+    }
+
+    /**
+     * Handles the collision of the player with a ghost.
+     *
+     * @param ghost
+     *            The ghost that the player has collided with.
+     */
+    public void handleGhostCollision(Ghost ghost) {
+        if(alive){
+            lives -= 1;
+
+            if (lives <= 0) {
+                alive = false;
+                killer = ghost;
+            }
+        }
     }
 }
