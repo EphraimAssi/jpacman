@@ -93,6 +93,10 @@ public class LauncherSmokeTest {
         // we're close to monsters, this will get us killed.
         move(game, Direction.WEST, 10);
         move(game, Direction.EAST, 10);
+        move(game, Direction.WEST, 10);
+        move(game, Direction.EAST, 10);
+        move(game, Direction.WEST, 10);
+        move(game, Direction.EAST, 10);
         assertThat(player.isAlive()).isFalse();
 
         game.stop();
