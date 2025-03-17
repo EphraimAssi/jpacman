@@ -6,7 +6,15 @@
 
 ## Gradle
 .gradle
-/build/
+/build/classes/*
+/build/generated/*
+/build/jacoco/*
+/build/resources/*
+/build/test-results/*
+/build/tmp/*
+/build/reports/problems/*
+/build/reports/tests/*
+/build/reports/jacoco/test/html*
 /out/
 
 # Ignore Gradle GUI config
